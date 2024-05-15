@@ -21,7 +21,7 @@ def take_command():
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
-            if 'nova' in command or 'hi nova' in command:
+            if 'hey nova' in command or 'hi nova' in command:
                 talk('How can I help you today?')
                 
     except Exception as e:
@@ -54,7 +54,7 @@ def run_nova():
             pywhatkit.playonyt(search_query)
 
         if 'time' in command:
-            time= datetime.datetime.now().strftime('%H:%M')
+            time= datetime.datetime.now().strftime('%I:%M %p')
             talk('Current time is ' + time)
 
 
