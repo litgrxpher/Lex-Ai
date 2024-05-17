@@ -15,13 +15,14 @@ def talk(text):
     engine.say(text)
     engine.runAndWait()
 
+
 def how_are_you_response():
     responses = [
-        "I'm doing well, thank you. How about yourself?",
-        "I'm fine, thanks. How are you?",
+        "I'm doing well, thank you.",
+        "I'm fine, thanks.",
         "I'm alright, thanks for asking.",
         "I'm doing okay, just taking things one step at a time.",
-        "I'm doing fine, nothing out of the ordinary. How about you?"
+        "I'm doing fine, nothing out of the ordinary."
     ]
     return random.choice(responses)
 
@@ -42,7 +43,7 @@ def run_nova():
         if 'hey nova' in command or 'hi nova' in command:
             talk('How can I help you today?')
 
-        elif 'stop it nova' in command:
+        elif 'Thank you' in command or 'stop' in command:
             talk("Goodbye!")
             break
 
@@ -73,7 +74,7 @@ def run_nova():
             talk(how_are_you_response())
 
         elif 'joke' in command:
-            talk(pyjokes.get_joke())    
+            talk(pyjokes.get_joke())      
 
         else:
             talk('I didnt get you')    
