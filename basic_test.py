@@ -37,10 +37,10 @@ def take_command():
         print(e)
     return command
 
-def run_nova():
+def run_lex():
     while True:
         command = take_command()
-        if 'hey nova' in command or 'hi nova' in command:
+        if 'hey lex' in command or 'hi lex' in command:
             talk('How can I help you today?')
 
         elif 'Thank you' in command or 'stop' in command:
@@ -79,4 +79,4 @@ def run_nova():
         else:
             talk('I didnt get you')    
 
-run_nova()
+run_lex()

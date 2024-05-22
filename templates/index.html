@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lex Assistant</title>
+    <style>
+        .listening-indicator {
+            display: none;
+            margin: 20px auto;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #00f;
+            position: relative;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Lex Assistant</h1>
+    <button id="talk">Talk to Lex</button>
+    <div id="listening" class="listening-indicator"></div>
+    <p id="output">Listening...</p>
+
+    <script>
+        const button = document.getElementById('talk');
+        const output = document.getElementById('output');
+        const listeningIndicator = document.getElementById('listening');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.onstart = function() {
+            output.textContent = 'Listening...';
+            listeningIndicator.style.display = 'block';
+        }
+
+        recognition.onspeechend = function() {
+            recognition.stop();
+            listeningIndicator.style.display = 'none';
+        }
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript.toLowerCase();
+            output.textContent = 'You said: ' + transcript;
+            listeningIndicator.style.display = 'none';
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command: transcript })
+            })
+            .then(response => response.json())
+            .then(data => {
+                output.textContent = data.response;
+            });
+        }
+
+        button.addEventListener('click', () => {
+            recognition.start();
+        });
+    </script>
+</body>
+</html>
