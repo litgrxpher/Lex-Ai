@@ -5,6 +5,10 @@ import datetime
 import wikipedia
 import random
 import pyjokes
+from google.generativeai import GenerativeModel, configure
+
+configure(api_key="AIzaSyBoCm0fFBjJRbBSicUEV8g2zLiscXaBQP4")
+model = GenerativeModel(model_name="gemini-1.5-flash-latest")
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -75,6 +79,11 @@ def run_lex():
 
         elif 'joke' in command:
             talk(pyjokes.get_joke())      
+
+        elif 'what is this' in command:
+            gemini_qstn = take_command()
+            response = model.generate_content(gemini_qstn)
+            talk(response)    
 
         else:
             talk('I didnt get you')    
